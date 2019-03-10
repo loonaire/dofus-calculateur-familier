@@ -1,0 +1,31 @@
+CXX=g++
+CXXFLAGS=-Wall
+LDFLAGS = -g 
+EXEC=calculateurfamilier
+
+all: $(EXEC)
+
+calculateurfamilier: main.o Monstre.o
+	$(CXX) $^ -o $(EXEC) $(LDFLAGS)
+
+#main.o: main.cpp Monstre.hpp 
+#	$(CXX) -o $@ -c $< $(CXXFLAGS)
+
+calculateurfamilier: main.o calculateurFamilier.o monstre.o
+	$(CXX)  $^ -o $(EXEC) $(LDFLAGS)
+	
+main.o: main.cpp CalculateurFamilier.hpp
+	$(CXX) -o $@ -c $< $(CXXFLAGS)
+
+CalculateurFamilier.o: CalculateurFamilier.cpp calculateurFamilier.hpp
+	$(CXX) -o $@ -c $< $(CXXFLAGS)
+
+Monstre.o: Monstre.cpp Monstre.hpp
+	$(CXX) -o $@ -c $< $(CXXFLAGS)
+
+
+clean: 
+	rm -rf *.o
+
+mrproper: clean
+	rm -rf $(EXEC)

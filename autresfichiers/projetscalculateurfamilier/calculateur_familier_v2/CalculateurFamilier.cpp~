@@ -1,0 +1,96 @@
+#include "CalculateurFamilier.hpp"
+
+// POUR L'IINSTANT: N'INITIALISE PAS LE TABLEAU DE MONSTRE
+CalculateurFamilier::CalculateurFamilier(int const& bonusMaxFamilier, int const& nbPointParPalier): bonusMaxFamilier(bonusMaxFamilier), nbPointParPalier(nbPointParPalier){
+	
+}
+
+
+CalculateurFamilier::~CalculateurFamilier(){
+}
+
+int CalculateurFamilier::getBonusMaxFamilier() const
+{
+	return this->bonusMaxFamilier;
+}
+
+void CalculateurFamilier::setBonusMaxFamilier(int const bonusMaxFamilier)
+{
+	this->bonusMaxFamilier = bonusMaxFamilier;
+}
+
+int CalculateurFamilier::getNbPointParPalier() const
+{
+	return this->nbPointParPalier;
+}
+
+void CalculateurFamilier::setNbPointParPalier(int const nbPointParPalier)
+{
+	this->nbPointParPalier = nbPointParPalier;
+}
+
+std::vector<int> CalculateurFamilier::getTabMonstre() const
+{
+	return this->tabMonstre;
+}
+
+void CalculateurFamilier::setTabMonstre(std::vector<Monstre> const& tabMonstre)
+{
+	this->tabMonstre = tabMonstre;
+}
+
+void CalculateurFamilier::ajoutMonstre(Monstre const& monstre){
+	this->tabMonstre.push_back(monstre);
+}
+
+void CalculateurFamilier::calcul(){
+	int bonusFamilier = 0;
+	int nombreDonjon = 0;
+	unsigned int i = 0;
+	
+	while (bonusFamilier < this->bonusMaxFamilier){
+		for(i=0;i<tabMonstre.size();i++){
+			// pour commencer, ici pour chaque salle (5salles) addition le nombre de monstre tué a chaque salle, on le répète pour chaque monstre 
+			tabMonstre[i].ajouteUnDonjon();
+		}
+		// ici encore du code a ajouter
+		bonusFamilier = 0; // reinitialise le bonus, recalcul a partir de 0 a chaque fois
+		for(i = 0; i<tabMonstre.size();i++){
+			bonusFamilier += ((tabMonstre[i].getNbMonstreTuer() / tabMonstre[i].getNbMonstrePalier() ) * this->getNbPointParPalier());
+		}	
+		nombreDonjon++;
+	}
+
+}
+
+/*-------------------------------------------------------------------------
+//fonction du programme de base
+#if 0
+void calculateurFamilier::calculNombreDonjon(){
+	int bonusFamilier = 0;
+	unsigned int i = 0,j = 0;
+	int nombreDonjon = 0;
+	while(bonusFamilier < bonusMaxFamilier){ // tq le fami n'as pas le maximum de point on continue d'incrémenter le compteur de monstre tué
+		// pour chaque salle ( de 0 a 4 (5salles) on parcours les tableau des mosntres et on incrémente le compteur de monstre tué
+		for(i=0;i<5;i++){
+			for(j=0;j<tabMonstre.size();j++){
+				tabMonstre[j].nombreMonstreTuer += tabMonstre[j].nombreMonstreSalle[i];				
+			}
+		
+		bonusFamilier = 0; // reinitialise le bonus a 0 ca la méthode utilisée recompte tout les bonus a chaque fois
+		for(i=0;i<tabMonstre.size();i++){
+			bonusFamilier += ((tabMonstre[i].nombreMonstreTuer/tabMonstre[i].nombreMonstreParPalier)*nombrePointParPalier);
+		}
+		nombreDonjon++;
+		// affichage
+		std::cout << std::endl << "Nombre de donjons: " << nombreDonjon << std::endl;
+		std::cout << "Bonus du familier: " << bonusFamilier << std::endl;
+		for(i=0;i<tabMonstre.size();i++){
+			std::cout << "Nombre de " << tabMonstre[i].nomMonstre << " tué: " << tabMonstre[i].nombreMonstreTuer << std::endl;
+		}		
+	}
+}
+
+#endif
+
+//--------------------------------------------------------------------------------------*/
